@@ -1,0 +1,14 @@
+{
+  "name": "Hz_Jutsus",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "repository": "https://github.com/Gracrys/Hz_Jutsus.git",
+  "author": "Gracrys <gracrys@gmail.com>",
+  "license": "MPL-2.0 License",
+  "devDependencies": {
+    "node-css": "^0.1.0",
+    "node-sass": "^4.14.1",
+    "parcel-bundler": "^1.12.4",
+    "pug": "^3.0.0"
+  }
+}
