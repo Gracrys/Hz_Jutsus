@@ -7,6 +7,7 @@ interface Jutsu {
   romanji : String,
   element : String,
   kanji : String,
+  symbol ?: String,
   details ?: {
     spread : Number,
     distance : Number
@@ -26,7 +27,7 @@ export const jutsus = {
      element: "Katon",
     kanji: "火遁・火龍弾"
    },
-     "yphy" : {
+   "yphy" : {
      name: "Fire Element; Great Dragon Fire Technique",
      romanji: "Katon style: ",
      element: "Katon",
@@ -38,30 +39,38 @@ export const jutsus = {
     element: "katon",
     kanji: "火遁・起爆炎陣­"
   },
-    "jlbuky":{ 
-      name: "Fire Release: Great Fireball Technique",
-      romaji: "Katon: Gōkakyū no Jutsu",
-      element: "katon",
-      kanji: "火遁・豪火球の術­­"
-    },
-      "yk":{ 
-      name: "Fire Release: Great Blaze Ball",
-      romaji: "Katon: Gōenkyū",
-      element: "katon",
-      kanji: "火遁・豪焔球­­"
-    },
+  "jlbuky":{ 
+    name: "Fire Release: Great Fireball Technique",
+    romaji: "Katon: Gōkakyū no Jutsu",
+    element: "katon",
+    kanji: "火遁・豪火球の術­­"
+  },
+    "yk":{ 
+    name: "Fire Release: Great Blaze Ball",
+    romaji: "Katon: Gōenkyū",
+    element: "katon",
+    kanji: "火遁・豪焔球­­"
+  },
   "y":{
+    name:"Fire Release: Flame Flower",
+    romanji:"Katon: Enka",
+    element:"Katon",
+    kanji:"火遁・炎華",
+    symbol: "🔥🌸"
+  },
+  "yi":{
     name:"Fire Release: Great Flame Flower",
     romanji:"Katon: Gōenka",
     element:"Katon",
     kanji:"火遁・豪炎華",
+    symbol: ""
   },
-    "yiuo":{
-  name:"Fire Release: Phoenix Sage Fire Technique",
-  romanji:"Katon: Hōsenka no Jutsu",
-  element:"Katon",
-  kanji:"火遁・鳳仙火の術"
-},
+  "yiuo":{
+    name:"Fire Release: Phoenix Sage Fire Technique",
+    romanji:"Katon: Hōsenka no Jutsu",
+    element:"Katon",
+    kanji:"火遁・鳳仙火の術"
+  },
 }
 
 
