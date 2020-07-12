@@ -4,7 +4,7 @@
   "main": "index.ts",
   "repository": "https://github.com/Gracrys/Hz_Jutsus.git",
   "author": "Gracrys <gracrys@gmail.com>",
-  "license": "MPL-2.0 License",
+  "license": "MPL-2.0",
   "scripts": {
     "dev": "parcel index.pug -p 1337"
   },
