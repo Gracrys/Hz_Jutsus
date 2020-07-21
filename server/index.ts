@@ -12,6 +12,7 @@ app.ws.use(function(ctx, next) {
   // @ts-ignore
   clients.push(ctx)
   ctx.websocket.on('message', function(message) {
+  	// @ts-ignore
   	clients.forEach(c => c.websocket.send(message))
     // do something with the message from client
     console.log(message)

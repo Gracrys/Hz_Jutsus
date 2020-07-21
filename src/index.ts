@@ -19,7 +19,12 @@ document.body.addEventListener("keydown", e =>{
 		ws.send(keyState)
 		console.log(keyState)
 		keyState = ""
-	}	else   {
+	}	else if((/Backspace/i).test(e.key)){
+
+		keyState = keyState.slice(0, -1)
+		footerLog.innerText = keyState
+
+	}	else if((/[a-z]/ig).test(e.key))  {
 		keyState += e.key
 		footerLog.innerText = keyState
 	}
