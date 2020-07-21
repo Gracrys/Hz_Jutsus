@@ -7,6 +7,8 @@ const symbolDesc = document.querySelector("main .js-symbol_desc")
 const ws = new WebSocket("ws://10.10.1.120:3000");
 ws.onmessage = x => console.warn(x.data)
 
+console.log(jutsus)
+
 let keyState = ""
 
 document.body.addEventListener("keydown", e =>{
@@ -17,7 +19,6 @@ document.body.addEventListener("keydown", e =>{
 		footerLog.innerText += "-"+e.key
 		showSymbol(jutsus[keyState])
 		ws.send(keyState)
-		console.log(keyState)
 		keyState = ""
 	}	else if((/Backspace/i).test(e.key)){
 
@@ -43,10 +44,9 @@ document.body.addEventListener("keyup", e =>{
 function showSymbol(x){
 	if(x){
 
-
 		symbol.innerText =  x.symbol 
 		symbolDesc.querySelector("h1").innerText = x.kanji
 		symbolDesc.querySelector("h3 blockquote").innerText = x.romanji
 	}
-	else console.log(x)
+	// else console.log(x)
 }
