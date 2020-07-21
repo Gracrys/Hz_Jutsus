@@ -9,10 +9,8 @@ const clients = []
 app.ws.use(function(ctx, next) {
   // return `next` to pass the context (ctx) on to the next ws middleware
   // clients.push(connection)
-  // @ts-ignore
   clients.push(ctx)
   ctx.websocket.on('message', function(message) {
-  	// @ts-ignore
   	clients.forEach(c => c.websocket.send(message))
     // do something with the message from client
     console.log(message)
