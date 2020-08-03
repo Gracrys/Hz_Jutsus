@@ -6,7 +6,7 @@ const app = websockify(new Koa());
 
 const clients = []
 
-app.ws.use(function(ctx, next) {
+app.ws.use(route.all('/:id', function(ctx, next) {
   // return `next` to pass the context (ctx) on to the next ws middleware
   // clients.push(connection)
   clients.push(ctx)
@@ -16,7 +16,7 @@ app.ws.use(function(ctx, next) {
     console.log(message)
   });
   return next(ctx);
-});
+}));
 
 app.use(async ctx => {
   ctx.body = 'Hello World';

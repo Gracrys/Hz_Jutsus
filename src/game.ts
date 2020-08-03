@@ -4,13 +4,6 @@ const footerLog = document.querySelector("footer #logger")
 const symbol = document.querySelector("main .js-symbol")
 const symbolDesc = document.querySelector("main .js-symbol_desc")
 
-
-window.onload = e =>{
-	if(window.location.pathname === "/"){
-		console.warn("modal")	
-	}
-}
-
 const ws = new WebSocket("ws://10.10.1.122:3000/21");
 ws.onmessage = x => console.warn(x.data)
 

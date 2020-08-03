@@ -6,7 +6,8 @@
   "author": "Gracrys <gracrys@gmail.com>",
   "license": "MPL-2.0",
   "scripts": {
-    "dev": "parcel index.pug -p 1337"
+    "dev": "parcel index.pug -p 1337",
+		"server" : "ts-node server/index.ts"
   },
   "devDependencies": {
     "@types/koa": "^2.11.3",
