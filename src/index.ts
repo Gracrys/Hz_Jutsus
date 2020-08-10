@@ -5,19 +5,32 @@ const symbol = document.querySelector("main .js-symbol")
 const symbolDesc = document.querySelector("main .js-symbol_desc")
 const ip = "10.10.1.122:3000"
 
-window.onload = e =>{
+import Modal from './components/modal.svelte';
 
+let check:boolean;
+
+window.onload = e =>{
 
 	if(window.location.pathname === "/"){
 
+		check = true;
 
-		postData('http://'+ip, { answer: 42 })
-		  .then(data => {
-		    console.log(data); // JSON data parsed by `data.json()` call
-		  }.catch( x => console.warn("error");		
-		console.warn("modal")	
+		// postData('http://'+ip, { answer: 42 })
+		//   .then(data => {
+		//     console.log(data); // JSON data parsed by `data.json()` call
+		//   }.catch( x => console.warn("error");		
+		// console.warn("modal")	
 	}
 }
+
+console.log(check)
+const app = new Modal({
+  target: document.body,
+  props: {
+  	check 
+  } 
+});
+
 
 const ws = new WebSocket("ws://"+ip+"/21");
 ws.onmessage = x => console.warn(x.data)
