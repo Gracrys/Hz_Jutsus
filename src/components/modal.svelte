@@ -1,6 +1,6 @@
-<script lang="ts">
+<script lang="typescript">
 	
-	export let check:boolean= true 
+	export let check= false 
 	$: console.log(check)
 
 </script>

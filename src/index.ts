@@ -5,9 +5,8 @@ const symbol = document.querySelector("main .js-symbol")
 const symbolDesc = document.querySelector("main .js-symbol_desc")
 const ip = "10.10.1.122:3000"
 
-import Modal from './components/modal.svelte';
 
-let check:boolean;
+let check:boolean = true
 
 window.onload = e =>{
 
@@ -23,6 +22,7 @@ window.onload = e =>{
 	}
 }
 
+import Modal from './components/modal.svelte';
 console.log(check)
 const app = new Modal({
   target: document.body,
