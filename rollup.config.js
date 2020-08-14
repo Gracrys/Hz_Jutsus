@@ -4,7 +4,8 @@ import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
-import typescript from '@rollup/plugin-typescript';
+import typescript from 'rollup-plugin-typescript2';
+import sass from 'rollup-plugin-scss'
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -18,7 +19,7 @@ function serve() {
 	return {
 		writeBundle() {
 			if (server) return;
-			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
+			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev', '--host'], {
 				stdio: ['ignore', 'inherit', 'inherit'],
 				shell: true
 			});
@@ -30,7 +31,7 @@ function serve() {
 }
 
 export default {
-	input: 'src/main.ts',
+	input: 'src/index.ts',
 	output: {
 		sourcemap: true,
 		format: 'iife',
@@ -38,6 +39,7 @@ export default {
 		file: 'public/build/bundle.js'
 	},
 	plugins: [
+		sass({output: "public/style.css"}),
 		svelte({
 			// enable run-time checks when not in production
 			dev: !production,
@@ -59,7 +61,10 @@ export default {
 			dedupe: ['svelte']
 		}),
 		commonjs(),
-		typescript({ sourceMap: !production }),
+		typescript({ 
+			sourceMap: !production,
+			check: false
+		 }),
 
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated

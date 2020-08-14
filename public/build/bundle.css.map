@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "..\\..\\modal.svelte"
+  ],
+  "sourcesContent": [
+    "<script lang=\"typescript\">import { slide, fade } from 'svelte/transition';\r\nexport let check = false;\r\n$: console.log(check);\r\n</script>\r\n\r\n<style lang=scss>#modal {\n  position: absolute;\n  /*transition: bottom 5s;*/ }\n  #modal.js-active {\n    animation: slide 2s 1;\n    bottom: 40vh; }\n  #modal input[type=text] {\n    background-image: linear-gradient(from top, #ffffff44 0%, #ffffff88 100%); }\n\n@keyframes slide {\n  from {\n    bottom: -400px; }\n  to {\n    bottom: 40vh; } }\n</style>\r\n\t{#if check == true}\r\n\t\t<dialog id=modal transition:slide=\"{{delay: 1250, duration: 2200}}\" class=\"js-modal c-modal\" class:js-active={check}> \r\n\t\t\t<h1>hENLO!</h1>\r\n\t\t\t<p>Select a server</p>\r\n\t\t\t<input type=\"text\">\r\n\t\t\t<button>accept</button>\r\n\t\t</dialog>\r\n\t{/if}\r\n\r\n"
+  ],
+  "names": [],
+  "mappings": "AAKiB,MAAM,8BAAC,CAAC,AACvB,QAAQ,CAAE,QAAQ,AACS,CAAC,AAC5B,MAAM,UAAU,8BAAC,CAAC,AAChB,SAAS,CAAE,oBAAK,CAAC,EAAE,CAAC,CAAC,CACrB,MAAM,CAAE,IAAI,AAAE,CAAC,AACjB,qBAAM,CAAC,KAAK,CAAC,IAAI,CAAC,IAAI,CAAC,eAAC,CAAC,AACvB,gBAAgB,CAAE,gBAAgB,IAAI,CAAC,GAAG,CAAC,CAAC,SAAS,CAAC,EAAE,CAAC,CAAC,SAAS,CAAC,IAAI,CAAC,AAAE,CAAC,AAEhF,WAAW,oBAAM,CAAC,AAChB,IAAI,AAAC,CAAC,AACJ,MAAM,CAAE,MAAM,AAAE,CAAC,AACnB,EAAE,AAAC,CAAC,AACF,MAAM,CAAE,IAAI,AAAE,CAAC,AAAC,CAAC"
+}
