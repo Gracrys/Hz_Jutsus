@@ -1,18 +1,13 @@
 import { technique, jutsus } from "./jutsus"
 import "./style.scss"
-import {connect, ip, port} from './store/'
+import {ws, ip, port} from './store/'
 const footerLog: HTMLElement = document.querySelector("footer #logger")
 const symbol : HTMLElement= document.querySelector("main .js-symbol")
 const symbolDesc : HTMLElement= document.querySelector("main .js-symbol_desc")
 
-
-console.error(connect)
- port.set(21)
-const ws = connect
-
-
-// <HTMLElement>(node: HTMLElement) => node.innerText
+//check if it is connected to a port and in main page
 let check:boolean = true
+port.set(21)
 
 window.onload = e => {
 
@@ -27,7 +22,8 @@ const app = new Modal({
   } 
 });
 
-if(check){
+if(!check){
+	//and the logic of the game
 
 	ws.onmessage = x => console.warn(x.data)
 
