@@ -1,6 +1,6 @@
 
 (function(l, r) { if (l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (window.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(window.document);
-(function () {
+(function (store) {
   'use strict';
 
   const jutsus = {
@@ -86,6 +86,13 @@
   }
   function is_empty(obj) {
       return Object.keys(obj).length === 0;
+  }
+  function subscribe(store, ...callbacks) {
+      if (store == null) {
+          return noop;
+      }
+      const unsub = store.subscribe(...callbacks);
+      return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
   }
 
   const is_client = typeof window !== 'undefined';
@@ -638,6 +645,116 @@
       $inject_state() { }
   }
 
+  const subscriber_queue = [];
+  /**
+   * Creates a `Readable` store that allows reading by subscription.
+   * @param value initial value
+   * @param {StartStopNotifier}start start and stop notifications for subscriptions
+   */
+  function readable(value, start) {
+      return {
+          subscribe: writable(value, start).subscribe,
+      };
+  }
+  /**
+   * Create a `Writable` store that allows both updating and reading by subscription.
+   * @param {*=}value initial value
+   * @param {StartStopNotifier=}start start and stop notifications for subscriptions
+   */
+  function writable(value, start = noop) {
+      let stop;
+      const subscribers = [];
+      function set(new_value) {
+          if (safe_not_equal(value, new_value)) {
+              value = new_value;
+              if (stop) { // store is ready
+                  const run_queue = !subscriber_queue.length;
+                  for (let i = 0; i < subscribers.length; i += 1) {
+                      const s = subscribers[i];
+                      s[1]();
+                      subscriber_queue.push(s, value);
+                  }
+                  if (run_queue) {
+                      for (let i = 0; i < subscriber_queue.length; i += 2) {
+                          subscriber_queue[i][0](subscriber_queue[i + 1]);
+                      }
+                      subscriber_queue.length = 0;
+                  }
+              }
+          }
+      }
+      function update(fn) {
+          set(fn(value));
+      }
+      function subscribe(run, invalidate = noop) {
+          const subscriber = [run, invalidate];
+          subscribers.push(subscriber);
+          if (subscribers.length === 1) {
+              stop = start(set) || noop;
+          }
+          run(value);
+          return () => {
+              const index = subscribers.indexOf(subscriber);
+              if (index !== -1) {
+                  subscribers.splice(index, 1);
+              }
+              if (subscribers.length === 0) {
+                  stop();
+                  stop = null;
+              }
+          };
+      }
+      return { set, update, subscribe };
+  }
+  function derived(stores, fn, initial_value) {
+      const single = !Array.isArray(stores);
+      const stores_array = single
+          ? [stores]
+          : stores;
+      const auto = fn.length < 2;
+      return readable(initial_value, (set) => {
+          let inited = false;
+          const values = [];
+          let pending = 0;
+          let cleanup = noop;
+          const sync = () => {
+              if (pending) {
+                  return;
+              }
+              cleanup();
+              const result = fn(single ? values[0] : values, set);
+              if (auto) {
+                  set(result);
+              }
+              else {
+                  cleanup = is_function(result) ? result : noop;
+              }
+          };
+          const unsubscribers = stores_array.map((store, i) => subscribe(store, (value) => {
+              values[i] = value;
+              pending &= ~(1 << i);
+              if (inited) {
+                  sync();
+              }
+          }, () => {
+              pending |= (1 << i);
+          }));
+          inited = true;
+          sync();
+          return function stop() {
+              run_all(unsubscribers);
+              cleanup();
+          };
+      });
+  }
+
+  const ip = "10.10.1.104:3000";
+  const port = writable('');
+  const connect = derived(port, ($a, set) => {
+      const ws = new WebSocket("ws://" + ip + "/" + $a);
+      return ws;
+  }, 'one moment...');
+
   function cubicOut(t) {
       const f = t - 1.0;
       return f * f * f + 1.0;
@@ -734,16 +851,16 @@
   			t5 = space();
   			button = element("button");
   			button.textContent = "accept";
-  			add_location(h1, file, 44, 3, 1020);
-  			add_location(p, file, 48, 3, 1151);
+  			add_location(h1, file, 44, 3, 1053);
+  			add_location(p, file, 48, 3, 1184);
   			attr_dev(input, "type", "text");
   			attr_dev(input, "class", "svelte-s1wugr");
-  			add_location(input, file, 49, 3, 1178);
-  			add_location(button, file, 50, 3, 1225);
+  			add_location(input, file, 49, 3, 1211);
+  			add_location(button, file, 50, 3, 1258);
   			attr_dev(dialog, "id", "modal");
   			attr_dev(dialog, "class", "js-modal c-modal svelte-s1wugr");
   			toggle_class(dialog, "js-active", /*check*/ ctx[0]);
-  			add_location(dialog, file, 43, 2, 897);
+  			add_location(dialog, file, 43, 2, 930);
   		},
   		m: function mount(target, anchor) {
   			insert_dev(target, dialog, anchor);
@@ -761,7 +878,7 @@
 
   			if (!mounted) {
   				dispose = [
-  					listen_dev(input, "input", /*input_input_handler_1*/ ctx[6]),
+  					listen_dev(input, "input", /*input_input_handler_1*/ ctx[4]),
   					listen_dev(button, "click", /*sendData*/ ctx[2], false, false, false)
   				];
 
@@ -827,10 +944,10 @@
   			label.textContent = "Pick a name";
   			input = element("input");
   			attr_dev(label, "class", "svelte-s1wugr");
-  			add_location(label, file, 46, 4, 1064);
+  			add_location(label, file, 46, 4, 1097);
   			attr_dev(input, "type", "");
   			attr_dev(input, "name", "");
-  			add_location(input, file, 46, 30, 1090);
+  			add_location(input, file, 46, 30, 1123);
   		},
   		m: function mount(target, anchor) {
   			insert_dev(target, label, anchor);
@@ -838,7 +955,7 @@
   			set_input_value(input, /*data*/ ctx[1].name);
 
   			if (!mounted) {
-  				dispose = listen_dev(input, "input", /*input_input_handler*/ ctx[5]);
+  				dispose = listen_dev(input, "input", /*input_input_handler*/ ctx[3]);
   				mounted = true;
   			}
   		},
@@ -936,19 +1053,18 @@
 
   function instance($$self, $$props, $$invalidate) {
   	let { check = false } = $$props;
-  	let { ip } = $$props;
-  	let { ws } = $$props;
+  	const ws = store.connect;
   	let data = { text: "", name: "" };
 
   	function sendData(x) {
   		ws.send(JSON.stringify(data));
 
-  		postData("http://" + ip, { data: text }).then(d => {
+  		postData("http://" + store.ip, { data: text }).then(d => {
   			console.log(d); // JSON data parsed by `data.json()` call
   		}).catch(x => console.warn("error"));
   	}
 
-  	const writable_props = ["check", "ip", "ws"];
+  	const writable_props = ["check"];
 
   	Object.keys($$props).forEach(key => {
   		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console_1.warn(`<Modal> was created with unknown prop '${key}'`);
@@ -969,16 +1085,16 @@
 
   	$$self.$$set = $$props => {
   		if ("check" in $$props) $$invalidate(0, check = $$props.check);
-  		if ("ip" in $$props) $$invalidate(3, ip = $$props.ip);
-  		if ("ws" in $$props) $$invalidate(4, ws = $$props.ws);
   	};
 
   	$$self.$capture_state = () => ({
   		slide,
   		fade,
+  		connect: store.connect,
+  		ip: store.ip,
+  		port: store.port,
   		postData,
   		check,
-  		ip,
   		ws,
   		data,
   		sendData
@@ -986,8 +1102,6 @@
 
   	$$self.$inject_state = $$props => {
   		if ("check" in $$props) $$invalidate(0, check = $$props.check);
-  		if ("ip" in $$props) $$invalidate(3, ip = $$props.ip);
-  		if ("ws" in $$props) $$invalidate(4, ws = $$props.ws);
   		if ("data" in $$props) $$invalidate(1, data = $$props.data);
   	};
 
@@ -1001,13 +1115,13 @@
   		}
   	};
 
-  	return [check, data, sendData, ip, ws, input_input_handler, input_input_handler_1];
+  	return [check, data, sendData, input_input_handler, input_input_handler_1];
   }
 
   class Modal extends SvelteComponentDev {
   	constructor(options) {
   		super(options);
-  		init(this, options, instance, create_fragment, safe_not_equal, { check: 0, ip: 3, ws: 4 });
+  		init(this, options, instance, create_fragment, safe_not_equal, { check: 0 });
 
   		dispatch_dev("SvelteRegisterComponent", {
   			component: this,
@@ -1015,17 +1129,6 @@
   			options,
   			id: create_fragment.name
   		});
-
-  		const { ctx } = this.$$;
-  		const props = options.props || {};
-
-  		if (/*ip*/ ctx[3] === undefined && !("ip" in props)) {
-  			console_1.warn("<Modal> was created without expected prop 'ip'");
-  		}
-
-  		if (/*ws*/ ctx[4] === undefined && !("ws" in props)) {
-  			console_1.warn("<Modal> was created without expected prop 'ws'");
-  		}
   	}
 
   	get check() {
@@ -1035,29 +1138,14 @@
   	set check(value) {
   		throw new Error("<Modal>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
   	}
-
-  	get ip() {
-  		throw new Error("<Modal>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-  	}
-
-  	set ip(value) {
-  		throw new Error("<Modal>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-  	}
-
-  	get ws() {
-  		throw new Error("<Modal>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-  	}
-
-  	set ws(value) {
-  		throw new Error("<Modal>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-  	}
   }
 
   const footerLog = document.querySelector("footer #logger");
   const symbol = document.querySelector("main .js-symbol");
   const symbolDesc = document.querySelector("main .js-symbol_desc");
-  const ip = "10.10.1.104:3000";
-  const ws = new WebSocket("ws://" + ip + "/21");
+  console.error(connect);
+  port.set(21);
+  const ws = connect;
   // <HTMLElement>(node: HTMLElement) => node.innerText
   let check = true;
   window.onload = e => {
@@ -1068,8 +1156,6 @@
       target: document.body,
       props: {
           check,
-          ip,
-          ws
       }
   });
   if (check) {
@@ -1110,5 +1196,5 @@
       }
   }
 
-}());
+}(store));
 //# sourceMappingURL=bundle.js.map

@@ -1,9 +1,10 @@
 <script lang="typescript">
 	import { slide, fade } from 'svelte/transition';
+	import {connect, ip, port} from 'store'
 	import postData from '../utils/postData.ts'	
 	export let check= false 
-	export let ip 
-	export let ws
+
+	const ws = connect
 
 	interface Data {
 		text : string,

@@ -30,7 +30,7 @@ app.ws.use(route.all('/:id', function(ctx, next, id) {
     // do something with the message from client
     console.log(message, id, next)
   });
-  return next(ct2x);
+  return next(ctx);
 }));
 
 app.use(async ctx => {
