@@ -2,12 +2,10 @@
 	import { slide, fade } from 'svelte/transition';
 	import {ws, ip, port} from 'store'
 	import postData from '../utils/postData.ts'	
+	import { Data } from '/types/interfaces'
 	export let check= false 
 
-	interface Data {
-		text : string,
-		name : string
-	}
+
 
 	let data : Data = {
 		text : "",
