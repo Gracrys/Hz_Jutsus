@@ -1,11 +1,10 @@
 <script lang="typescript">
 	import { slide, fade } from 'svelte/transition';
-	import {ws, ip, port} from 'store'
 	import postData from '../utils/postData.ts'	
 	import {ws, ip, port} from '../store/index.ts'	
 	export let check= false 
 
-	let data : Data = {
+	let data  = {
 		text : "",
 		name: ""
 	} 
