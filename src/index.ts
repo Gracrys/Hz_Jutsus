@@ -7,6 +7,7 @@ const symbolDesc : HTMLElement= document.querySelector("main .js-symbol_desc")
 
 
 let check:boolean = true
+port.set(21)
 
 window.onload = e => {
 
@@ -21,7 +22,8 @@ const app = new Modal({
   } 
 });
 
-if(check){
+if(!check){
+	//and the logic of the game
 
 	ws.onmessage = x => console.warn(x.data)
 

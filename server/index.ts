@@ -20,10 +20,14 @@ app.use( route.all('/', function(ctx, next){
   )
 )
 
+
+//Websocket
+
 app.ws.use(route.all('/:id', function(ctx, next, id) {
   // return `next` to pass the context (ctx) on to the next ws middleware
   // clients.push(connection)
   games[id] = "11"
+  
   clients.push(ctx)
   ctx.websocket.on('message', function(message) {
   	clients.forEach(c => c.websocket.send(message))
