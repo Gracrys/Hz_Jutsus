@@ -1,14 +1,11 @@
 import { technique, jutsus } from "./jutsus"
 import "./style.scss"
+import {ws, ip, port} from './store/'	
 const footerLog: HTMLElement = document.querySelector("footer #logger")
 const symbol : HTMLElement= document.querySelector("main .js-symbol")
 const symbolDesc : HTMLElement= document.querySelector("main .js-symbol_desc")
 
-const ip = "10.10.1.104:3000"
 
-const ws = new WebSocket("ws://"+ip+"/21");
-
-// <HTMLElement>(node: HTMLElement) => node.innerText
 let check:boolean = true
 
 window.onload = e => {
@@ -21,8 +18,6 @@ const app = new Modal({
   target: document.body,
   props: {
   	check ,
-  	ip,
-  	ws
   } 
 });
 

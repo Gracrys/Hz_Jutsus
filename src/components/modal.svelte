@@ -1,14 +1,8 @@
 <script lang="typescript">
 	import { slide, fade } from 'svelte/transition';
 	import postData from '../utils/postData.ts'	
+	import {ws, ip, port} from '../store/index.ts'	
 	export let check= false 
-	export let ip 
-	export let ws
-
-	interface Data {
-		text : string,
-		name : string
-	}
 
 	let data : Data = {
 		text : "",
@@ -19,11 +13,7 @@
 
 function sendData(x) {
 	ws.send(JSON.stringify(data))
-	postData('http://'+ip, {data: text})
-		  .then(d => {
-		    console.log(d); // JSON data parsed by `data.json()` call
-		  }).catch( x => console.warn("error") )	
-
+	
 }
 
 
