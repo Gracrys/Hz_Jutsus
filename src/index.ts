@@ -7,8 +7,8 @@ const symbolDesc : HTMLElement= document.querySelector("main .js-symbol_desc")
 
 
 let check:boolean = true
-port.set(21)
 
+port.set(21)
 window.onload = e => {
 
 	if(window.location.pathname === "/") check = true;

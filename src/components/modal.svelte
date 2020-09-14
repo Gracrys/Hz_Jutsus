@@ -3,15 +3,19 @@
 	import postData from '../utils/postData.ts'	
 	import {ws, ip, port} from '../store/index.ts'	
 	export let check= false 
-
+import { get } from 'svelte/store';
 	let data  = {
-		text : "",
+		room : "",
 		name: ""
 	} 
 
 function sendData(x) {
-	ws.send(JSON.stringify(data))
-	
+	console.log($ws)
+	port.set(data.room)
+
+	$ws.send(JSON.stringify(data))
+
+	console.log(get(ws))
 }
 
 
@@ -52,7 +56,7 @@ function sendData(x) {
 			<label>Pick a name</label><input type="" bind:value={data.name} name="">
 		{/if}
 		<p>Select a server</p>
-		<input type="text" bind:value={data.text}>
+		<input type="text" bind:value={data.room} name="room">
 		<button on:click={sendData}>accept</button>
 	</dialog>
 {/if}

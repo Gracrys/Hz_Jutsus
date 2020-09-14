@@ -20,22 +20,30 @@ app.use( route.all('/', function(ctx, next){
   )
 )
 
-
 //Websocket
 
-app.ws.use(route.all('/:id', function(ctx, next, id) {
+app.ws.use(route.all('/:id', function(ctx, id, next) {
   // return `next` to pass the context (ctx) on to the next ws middleware
   // clients.push(connection)
-  games[id] = "11"
-  
-  clients.push(ctx)
+
+
   ctx.websocket.on('message', function(message) {
-  	clients.forEach(c => c.websocket.send(message))
+    let message1 = JSON.parse( message )
+    // if(message1.hasOwnProperty("room"))
+      // games[message.room] =  'ctx'
+
+    // else
+      // games[message.room].forEach(c => c.websocket.send(message))
+    // clients.forEach(c => c[id].websocket.send(message))
     // do something with the message from client
-    console.log(message, id, next)
+    console.log(games, id, message1["room"])
   });
   return next(ctx);
 }));
+
+app.use(async ctx => {
+  ctx.body = 'Hello World';
+});
 
 app.use(async ctx => {
   ctx.body = 'Hello World';
