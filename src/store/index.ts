@@ -1,12 +1,9 @@
 import { derived, writable, get } from 'svelte/store';
+import io from "socket.io-client/dist/socket.io.js"
 
-export const ip = "10.10.1.104:3000"
+export const ip = "10.10.1.116:3000"
 
-export let port = writable('')
-let port1  
+export let check : bool = writable(true)
 
-const unsubscribe = port.subscribe(val => {
-		port1 = val;
-	});
-
-export const ws = derived( port, x => new WebSocket("ws://"+ip+"/"+(x))  
+ export const sc = io.connect('http://' + ip)
+// export const ws = derived( port, x => new WebSocket("ws://"+ip+"/"+(x))  

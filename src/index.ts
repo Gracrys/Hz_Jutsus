@@ -1,31 +1,39 @@
 import { technique, jutsus } from "./jutsus"
 import "./style.scss"
-import {ws, ip, port} from './store/'	
+import {check, ip, sc} from './store/'	
+import { get } from 'svelte/store';
 const footerLog: HTMLElement = document.querySelector("footer #logger")
 const symbol : HTMLElement= document.querySelector("main .js-symbol")
 const symbolDesc : HTMLElement= document.querySelector("main .js-symbol_desc")
 
 
-let check:boolean = true
+// let check:boolean = true
 
-port.set(21)
 window.onload = e => {
 
-	if(window.location.pathname === "/") check = true;
+	// if(window.location.pathname === "/") check = true;
 }
 
 import Modal from './components/modal.svelte';
 const app = new Modal({
   target: document.body,
   props: {
-  	check ,
   } 
 });
 
-if(!check){
+
+
 	//and the logic of the game
 
-	ws.onmessage = x => console.warn(x.data)
+	// ws.onmessage = x => console.warn(x.data)
+
+
+	sc.on('game', (x) =>{
+		if(!x.error)
+			check.set(false)	
+
+		console.warn("connected")
+	})
 
 	console.log(jutsus)
 
@@ -38,7 +46,7 @@ if(!check){
 		if((/Enter/i).test(e.key)){
 			footerLog.innerText += "-"+e.key
 			showSymbol(jutsus[keyState])
-			ws.send(keyState)
+			// ws.send(keyState)
 			keyState = ""
 
 		}	else if((/Backspace/i).test(e.key)){
@@ -68,4 +76,3 @@ if(!check){
 		}
 		// else console.log(x)
 	}
-}
