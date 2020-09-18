@@ -7,12 +7,7 @@ const symbol : HTMLElement= document.querySelector("main .js-symbol")
 const symbolDesc : HTMLElement= document.querySelector("main .js-symbol_desc")
 
 
-// let check:boolean = true
 
-window.onload = e => {
-
-	// if(window.location.pathname === "/") check = true;
-}
 
 import Modal from './components/modal.svelte';
 const app = new Modal({
@@ -23,17 +18,14 @@ const app = new Modal({
 
 
 
-	//and the logic of the game
-
-	// ws.onmessage = x => console.warn(x.data)
-
-
 	sc.on('game', (x) =>{
 		if(!x.error)
 			check.set(false)	
 
 		console.warn("connected")
 	})
+
+( () => {
 
 	console.log(jutsus)
 
@@ -76,3 +68,6 @@ const app = new Modal({
 		}
 		// else console.log(x)
 	}
+
+	
+})()

@@ -14,7 +14,7 @@ app.use(bP())
 const io = new IO();
 io.attach(app);
 
-let games = {}
+let games = []
 let clients = []
 
 app.use( route.all('/', function(ctx, next){
@@ -28,7 +28,7 @@ app.use( route.all('/', function(ctx, next){
 
 
 io.on('log', (ctx, data) => {
-  if(games <= 2){
+  if(games.length <= 2){
 
     games.push(data)
     ctx.socket.join(data.room);
