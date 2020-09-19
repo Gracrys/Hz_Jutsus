@@ -5,23 +5,18 @@ import { get } from 'svelte/store';
 const footerLog: HTMLElement = document.querySelector("footer #logger")
 const symbol : HTMLElement= document.querySelector("main .js-symbol")
 const symbolDesc : HTMLElement= document.querySelector("main .js-symbol_desc")
+import App from './components/App.svelte';
 
-
-
-
-import Modal from './components/App.svelte';
 const app = new App({
   target: document.body,
   props: {
   } 
 });
 
-
-
 sc.on('game', (x) =>{
 	if(!x.error)
 		check.set(false)	
-
+	console.log(x.error, x)
 	console.warn("connected")
 })
 

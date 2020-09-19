@@ -14,8 +14,12 @@ app.use(bP())
 const io = new IO();
 io.attach(app);
 
-let games = []
-let clients = []
+type Games = {
+  [key: string] : any[]
+}
+
+let games:Games = {}
+let gamesArr = []
 
 app.use( route.all('/', function(ctx, next){
       console.log(ctx.request.body) 
@@ -28,11 +32,15 @@ app.use( route.all('/', function(ctx, next){
 
 
 io.on('log', (ctx, data) => {
-  if(games.length <= 2){
 
-    games.push(data)
+  if (games[data.room]) {
+      games[data.room].push(data.name)
+  }else{
+      games[data.room] = [data.name]
+  }
+    console.log(games)
+  if(games[data.room].length <= 2){
     ctx.socket.join(data.room);
-    // io.emit('res',{mes:"you are added"})
     app.io.broadcast( 'game', data);
     console.log('client sent data to message endpoint', data);
     ctx.socket.in(data.room).emit('game', { chicken: 'tasty' });

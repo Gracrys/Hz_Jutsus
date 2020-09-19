@@ -1,7 +1,7 @@
 <script lang="typescript">
 	
 	import {ip, check, sc} from '../store/index.ts'	
-	import modal from './modal'
+	import Modal from './Modal.svelte'
 </script>
 
 <style lang="scss">
@@ -9,7 +9,7 @@
 </style>
 
 <template>
-	<main class="c-main">
+	<main class="c-main" on:>
 		<figure class="js-symbol u-center"></figure>
 		<figcaption class="js-symbol js-symbol_desc">
 			<h1></h1>
