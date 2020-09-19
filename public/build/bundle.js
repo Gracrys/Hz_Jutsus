@@ -87,21 +87,6 @@
   function is_empty(obj) {
       return Object.keys(obj).length === 0;
   }
-  function validate_store(store, name) {
-      if (store != null && typeof store.subscribe !== 'function') {
-          throw new Error(`'${name}' is not a store with a 'subscribe' method`);
-      }
-  }
-  function subscribe(store, ...callbacks) {
-      if (store == null) {
-          return noop;
-      }
-      const unsub = store.subscribe(...callbacks);
-      return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
-  }
-  function component_subscribe(component, store, callback) {
-      component.$$.on_destroy.push(subscribe(store, callback));
-  }
 
   const is_client = typeof window !== 'undefined';
   let now = is_client
@@ -155,9 +140,6 @@
   }
   function space() {
       return text(' ');
-  }
-  function empty() {
-      return text('');
   }
   function listen(node, event, handler, options) {
       node.addEventListener(event, handler, options);
@@ -328,39 +310,10 @@
   }
   const outroing = new Set();
   let outros;
-  function group_outros() {
-      outros = {
-          r: 0,
-          c: [],
-          p: outros // parent group
-      };
-  }
-  function check_outros() {
-      if (!outros.r) {
-          run_all(outros.c);
-      }
-      outros = outros.p;
-  }
   function transition_in(block, local) {
       if (block && block.i) {
           outroing.delete(block);
           block.i(local);
-      }
-  }
-  function transition_out(block, local, detach, callback) {
-      if (block && block.o) {
-          if (outroing.has(block))
-              return;
-          outroing.add(block);
-          outros.c.push(() => {
-              outroing.delete(block);
-              if (callback) {
-                  if (detach)
-                      block.d(1);
-                  callback();
-              }
-          });
-          block.o(local);
       }
   }
   const null_transition = { duration: 0 };
@@ -807,8 +760,59 @@
   const { console: console_1 } = globals;
   const file = "src\\components\\modal.svelte";
 
-  // (48:0) {#if $check == true}
+  // (50:2) {#if localStorage}
   function create_if_block(ctx) {
+  	let label;
+  	let input;
+  	let mounted;
+  	let dispose;
+
+  	const block = {
+  		c: function create() {
+  			label = element("label");
+  			label.textContent = "Pick a name";
+  			input = element("input");
+  			attr_dev(label, "class", "svelte-s1wugr");
+  			add_location(label, file, 50, 3, 1133);
+  			attr_dev(input, "type", "");
+  			attr_dev(input, "name", "");
+  			add_location(input, file, 50, 29, 1159);
+  		},
+  		m: function mount(target, anchor) {
+  			insert_dev(target, label, anchor);
+  			insert_dev(target, input, anchor);
+  			set_input_value(input, /*data*/ ctx[0].name);
+
+  			if (!mounted) {
+  				dispose = listen_dev(input, "input", /*input_input_handler*/ ctx[2]);
+  				mounted = true;
+  			}
+  		},
+  		p: function update(ctx, dirty) {
+  			if (dirty & /*data*/ 1 && input.value !== /*data*/ ctx[0].name) {
+  				set_input_value(input, /*data*/ ctx[0].name);
+  			}
+  		},
+  		d: function destroy(detaching) {
+  			if (detaching) detach_dev(label);
+  			if (detaching) detach_dev(input);
+  			mounted = false;
+  			dispose();
+  		}
+  	};
+
+  	dispatch_dev("SvelteRegisterBlock", {
+  		block,
+  		id: create_if_block.name,
+  		type: "if",
+  		source: "(50:2) {#if localStorage}",
+  		ctx
+  	});
+
+  	return block;
+  }
+
+  function create_fragment(ctx) {
   	let dialog;
   	let h1;
   	let t1;
@@ -822,7 +826,7 @@
   	let current;
   	let mounted;
   	let dispose;
-  	let if_block = localStorage && create_if_block_1(ctx);
+  	let if_block = localStorage && create_if_block(ctx);
 
   	const block = {
   		c: function create() {
@@ -839,17 +843,20 @@
   			t5 = space();
   			button = element("button");
   			button.textContent = "accept";
-  			add_location(h1, file, 49, 2, 1113);
-  			add_location(p, file, 53, 2, 1240);
+  			add_location(h1, file, 48, 2, 1091);
+  			add_location(p, file, 52, 2, 1218);
   			attr_dev(input, "type", "text");
   			attr_dev(input, "name", "room");
   			attr_dev(input, "class", "svelte-s1wugr");
-  			add_location(input, file, 54, 2, 1266);
-  			add_location(button, file, 55, 2, 1324);
+  			add_location(input, file, 53, 2, 1244);
+  			add_location(button, file, 54, 2, 1302);
   			attr_dev(dialog, "id", "modal");
   			attr_dev(dialog, "class", "js-modal c-modal svelte-s1wugr");
   			toggle_class(dialog, "js-active", check$1);
-  			add_location(dialog, file, 48, 1, 991);
+  			add_location(dialog, file, 47, 1, 969);
+  		},
+  		l: function claim(nodes) {
+  			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
   		},
   		m: function mount(target, anchor) {
   			insert_dev(target, dialog, anchor);
@@ -867,14 +874,14 @@
 
   			if (!mounted) {
   				dispose = [
-  					listen_dev(input, "input", /*input_input_handler_1*/ ctx[4]),
-  					listen_dev(button, "click", /*sendData*/ ctx[2], false, false, false)
+  					listen_dev(input, "input", /*input_input_handler_1*/ ctx[3]),
+  					listen_dev(button, "click", /*sendData*/ ctx[1], false, false, false)
   				];
 
   				mounted = true;
   			}
   		},
-  		p: function update(ctx, dirty) {
+  		p: function update(ctx, [dirty]) {
   			if (localStorage) if_block.p(ctx, dirty);
 
   			if (dirty & /*data*/ 1 && input.value !== /*data*/ ctx[0].room) {
@@ -911,126 +918,6 @@
 
   	dispatch_dev("SvelteRegisterBlock", {
   		block,
-  		id: create_if_block.name,
-  		type: "if",
-  		source: "(48:0) {#if $check == true}",
-  		ctx
-  	});
-
-  	return block;
-  }
-
-  // (51:2) {#if localStorage}
-  function create_if_block_1(ctx) {
-  	let label;
-  	let input;
-  	let mounted;
-  	let dispose;
-
-  	const block = {
-  		c: function create() {
-  			label = element("label");
-  			label.textContent = "Pick a name";
-  			input = element("input");
-  			attr_dev(label, "class", "svelte-s1wugr");
-  			add_location(label, file, 51, 3, 1155);
-  			attr_dev(input, "type", "");
-  			attr_dev(input, "name", "");
-  			add_location(input, file, 51, 29, 1181);
-  		},
-  		m: function mount(target, anchor) {
-  			insert_dev(target, label, anchor);
-  			insert_dev(target, input, anchor);
-  			set_input_value(input, /*data*/ ctx[0].name);
-
-  			if (!mounted) {
-  				dispose = listen_dev(input, "input", /*input_input_handler*/ ctx[3]);
-  				mounted = true;
-  			}
-  		},
-  		p: function update(ctx, dirty) {
-  			if (dirty & /*data*/ 1 && input.value !== /*data*/ ctx[0].name) {
-  				set_input_value(input, /*data*/ ctx[0].name);
-  			}
-  		},
-  		d: function destroy(detaching) {
-  			if (detaching) detach_dev(label);
-  			if (detaching) detach_dev(input);
-  			mounted = false;
-  			dispose();
-  		}
-  	};
-
-  	dispatch_dev("SvelteRegisterBlock", {
-  		block,
-  		id: create_if_block_1.name,
-  		type: "if",
-  		source: "(51:2) {#if localStorage}",
-  		ctx
-  	});
-
-  	return block;
-  }
-
-  function create_fragment(ctx) {
-  	let if_block_anchor;
-  	let current;
-  	let if_block = /*$check*/ ctx[1] == true && create_if_block(ctx);
-
-  	const block = {
-  		c: function create() {
-  			if (if_block) if_block.c();
-  			if_block_anchor = empty();
-  		},
-  		l: function claim(nodes) {
-  			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
-  		},
-  		m: function mount(target, anchor) {
-  			if (if_block) if_block.m(target, anchor);
-  			insert_dev(target, if_block_anchor, anchor);
-  			current = true;
-  		},
-  		p: function update(ctx, [dirty]) {
-  			if (/*$check*/ ctx[1] == true) {
-  				if (if_block) {
-  					if_block.p(ctx, dirty);
-
-  					if (dirty & /*$check*/ 2) {
-  						transition_in(if_block, 1);
-  					}
-  				} else {
-  					if_block = create_if_block(ctx);
-  					if_block.c();
-  					transition_in(if_block, 1);
-  					if_block.m(if_block_anchor.parentNode, if_block_anchor);
-  				}
-  			} else if (if_block) {
-  				group_outros();
-
-  				transition_out(if_block, 1, 1, () => {
-  					if_block = null;
-  				});
-
-  				check_outros();
-  			}
-  		},
-  		i: function intro(local) {
-  			if (current) return;
-  			transition_in(if_block);
-  			current = true;
-  		},
-  		o: function outro(local) {
-  			transition_out(if_block);
-  			current = false;
-  		},
-  		d: function destroy(detaching) {
-  			if (if_block) if_block.d(detaching);
-  			if (detaching) detach_dev(if_block_anchor);
-  		}
-  	};
-
-  	dispatch_dev("SvelteRegisterBlock", {
-  		block,
   		id: create_fragment.name,
   		type: "component",
   		source: "",
@@ -1041,9 +928,6 @@
   }
 
   function instance($$self, $$props, $$invalidate) {
-  	let $check;
-  	validate_store(check$1, "check");
-  	component_subscribe($$self, check$1, $$value => $$invalidate(1, $check = $$value));
   	let data = { room: "", name: "" };
 
   	sc$1.on("log", function (event) {
@@ -1085,8 +969,7 @@
   		check: check$1,
   		sc: sc$1,
   		data,
-  		sendData,
-  		$check
+  		sendData
   	});
 
   	$$self.$inject_state = $$props => {
@@ -1097,7 +980,7 @@
   		$$self.$inject_state($$props.$$inject);
   	}
 
-  	return [data, $check, sendData, input_input_handler, input_input_handler_1];
+  	return [data, sendData, input_input_handler, input_input_handler_1];
   }
 
   class Modal extends SvelteComponentDev {
@@ -1160,7 +1043,7 @@
           }
           // else console.log(x)
       }
-  })();
+  });
 
 }());
 //# sourceMappingURL=bundle.js.map

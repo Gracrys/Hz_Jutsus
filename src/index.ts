@@ -9,8 +9,8 @@ const symbolDesc : HTMLElement= document.querySelector("main .js-symbol_desc")
 
 
 
-import Modal from './components/modal.svelte';
-const app = new Modal({
+import Modal from './components/App.svelte';
+const app = new App({
   target: document.body,
   props: {
   } 
@@ -18,12 +18,12 @@ const app = new Modal({
 
 
 
-	sc.on('game', (x) =>{
-		if(!x.error)
-			check.set(false)	
+sc.on('game', (x) =>{
+	if(!x.error)
+		check.set(false)	
 
-		console.warn("connected")
-	})
+	console.warn("connected")
+})
 
 ( () => {
 
@@ -69,5 +69,5 @@ const app = new Modal({
 		// else console.log(x)
 	}
 
-	
-})()
+
+})

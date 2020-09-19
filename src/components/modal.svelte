@@ -60,7 +60,6 @@ function sendData(x) {
 	
 </style>
 
-{#if $check == true}
 	<dialog id=modal transition:slide="{{delay: 1250, duration: 2200}}" class="js-modal c-modal" class:js-active={check}> 
 		<h1>hENLO!</h1>
 		{#if localStorage}
@@ -70,5 +69,4 @@ function sendData(x) {
 		<input type="text" bind:value={data.room} name="room">
 		<button on:click={sendData}>accept</button>
 	</dialog>
-{/if}
 
