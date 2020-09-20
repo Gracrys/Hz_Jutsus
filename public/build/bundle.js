@@ -573,6 +573,13 @@
         else
             dispatch_dev("SvelteDOMSetAttribute", { node, attribute, value });
     }
+    function set_data_dev(text, data) {
+        data = '' + data;
+        if (text.wholeText === data)
+            return;
+        dispatch_dev("SvelteDOMSetData", { node: text, data });
+        text.data = data;
+    }
     function validate_slots(name, slot, keys) {
         for (const slot_key of Object.keys(slot)) {
             if (!~keys.indexOf(slot_key)) {
@@ -677,11 +684,11 @@
 
     });
 
-    const ip = "10.10.1.117:3000";
+    const ip = "localhost:3000"; // "10.10.1.117:3000"
     const sc = socket_io.connect('http://' + ip);
     // export const ws = derived( port, x => new WebSocket("ws://"+ip+"/"+(x))
 
-    const ip$1 = "10.10.1.117:3000";
+    const ip$1 = "localhost:3000"; // "10.10.1.117:3000"
     let check = writable(true);
     const sc$1 = socket_io.connect('http://' + ip$1);
     // export const ws = derived( port, x => new WebSocket("ws://"+ip+"/"+(x))
@@ -1070,43 +1077,6 @@
     const { console: console_1$1 } = globals;
     const file$1 = "src\\components\\App.svelte";
 
-    // (43:2) {#if showKeyState}
-    function create_if_block_1(ctx) {
-    	let dialog;
-
-    	const block = {
-    		c: function create() {
-    			dialog = element("dialog");
-    			dialog.textContent = `${/*showKeyState*/ ctx[1]}`;
-    			attr_dev(dialog, "id", "logger");
-    			attr_dev(dialog, "class", "js-log c-log");
-    			toggle_class(dialog, "showKeyState", is - logged);
-    			add_location(dialog, file$1, 43, 3, 1069);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, dialog, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*is, logged*/ 0) {
-    				toggle_class(dialog, "showKeyState", is - logged);
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(dialog);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_1.name,
-    		type: "if",
-    		source: "(43:2) {#if showKeyState}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
     // (48:0) {#if $check }
     function create_if_block$1(ctx) {
     	let modal;
@@ -1147,95 +1117,109 @@
     }
 
     function create_fragment$1(ctx) {
+    	let t0;
     	let main;
     	let figure;
-    	let t0;
+    	let t1;
     	let figcaption;
     	let h1;
-    	let t1;
+    	let t2;
     	let h3;
     	let blockquote;
-    	let t2;
-    	let footer;
     	let t3;
-    	let if_block1_anchor;
+    	let footer;
+    	let dialog;
+    	let t4;
+    	let t5;
+    	let if_block_anchor;
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block0 = /*showKeyState*/ ctx[1] && create_if_block_1(ctx);
-    	let if_block1 = /*$check*/ ctx[0] && create_if_block$1(ctx);
+    	let if_block = /*$check*/ ctx[1] && create_if_block$1(ctx);
 
     	const block = {
     		c: function create() {
+    			t0 = space();
     			main = element("main");
     			figure = element("figure");
-    			t0 = space();
+    			t1 = space();
     			figcaption = element("figcaption");
     			h1 = element("h1");
-    			t1 = space();
+    			t2 = space();
     			h3 = element("h3");
     			blockquote = element("blockquote");
-    			t2 = space();
-    			footer = element("footer");
-    			if (if_block0) if_block0.c();
     			t3 = space();
-    			if (if_block1) if_block1.c();
-    			if_block1_anchor = empty();
+    			footer = element("footer");
+    			dialog = element("dialog");
+    			t4 = text(/*keyState*/ ctx[0]);
+    			t5 = space();
+    			if (if_block) if_block.c();
+    			if_block_anchor = empty();
     			attr_dev(figure, "class", "js-symbol u-center");
-    			add_location(figure, file$1, 33, 2, 847);
-    			add_location(h1, file$1, 35, 3, 945);
-    			add_location(blockquote, file$1, 37, 4, 969);
-    			add_location(h3, file$1, 36, 3, 959);
+    			add_location(figure, file$1, 35, 2, 933);
+    			add_location(h1, file$1, 37, 3, 1031);
+    			add_location(blockquote, file$1, 39, 4, 1055);
+    			add_location(h3, file$1, 38, 3, 1045);
     			attr_dev(figcaption, "class", "js-symbol js-symbol_desc");
-    			add_location(figcaption, file$1, 34, 2, 895);
+    			add_location(figcaption, file$1, 36, 2, 981);
     			attr_dev(main, "class", "c-main");
-    			add_location(main, file$1, 32, 1, 796);
-    			add_location(footer, file$1, 41, 1, 1034);
+    			add_location(main, file$1, 34, 1, 907);
+    			attr_dev(dialog, "id", "logger");
+    			attr_dev(dialog, "class", "js-log c-log");
+    			toggle_class(dialog, "is-logged", /*keyState*/ ctx[0]);
+    			add_location(dialog, file$1, 44, 3, 1133);
+    			add_location(footer, file$1, 43, 1, 1120);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, t0, anchor);
     			insert_dev(target, main, anchor);
     			append_dev(main, figure);
-    			append_dev(main, t0);
+    			append_dev(main, t1);
     			append_dev(main, figcaption);
     			append_dev(figcaption, h1);
-    			append_dev(figcaption, t1);
+    			append_dev(figcaption, t2);
     			append_dev(figcaption, h3);
     			append_dev(h3, blockquote);
-    			insert_dev(target, t2, anchor);
-    			insert_dev(target, footer, anchor);
-    			if (if_block0) if_block0.m(footer, null);
     			insert_dev(target, t3, anchor);
-    			if (if_block1) if_block1.m(target, anchor);
-    			insert_dev(target, if_block1_anchor, anchor);
+    			insert_dev(target, footer, anchor);
+    			append_dev(footer, dialog);
+    			append_dev(dialog, t4);
+    			insert_dev(target, t5, anchor);
+    			if (if_block) if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(main, "keydown", /*keydown_handler*/ ctx[3], false, false, false);
+    				dispose = listen_dev(document.body, "keydown", /*keydown_handler*/ ctx[3], false, false, false);
     				mounted = true;
     			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if (/*showKeyState*/ ctx[1]) if_block0.p(ctx, dirty);
+    			if (!current || dirty & /*keyState*/ 1) set_data_dev(t4, /*keyState*/ ctx[0]);
 
-    			if (/*$check*/ ctx[0]) {
-    				if (if_block1) {
-    					if (dirty & /*$check*/ 1) {
-    						transition_in(if_block1, 1);
+    			if (dirty & /*keyState*/ 1) {
+    				toggle_class(dialog, "is-logged", /*keyState*/ ctx[0]);
+    			}
+
+    			if (/*$check*/ ctx[1]) {
+    				if (if_block) {
+    					if (dirty & /*$check*/ 2) {
+    						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block1 = create_if_block$1(ctx);
-    					if_block1.c();
-    					transition_in(if_block1, 1);
-    					if_block1.m(if_block1_anchor.parentNode, if_block1_anchor);
+    					if_block = create_if_block$1(ctx);
+    					if_block.c();
+    					transition_in(if_block, 1);
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
     				}
-    			} else if (if_block1) {
+    			} else if (if_block) {
     				group_outros();
 
-    				transition_out(if_block1, 1, 1, () => {
-    					if_block1 = null;
+    				transition_out(if_block, 1, 1, () => {
+    					if_block = null;
     				});
 
     				check_outros();
@@ -1243,21 +1227,21 @@
     		},
     		i: function intro(local) {
     			if (current) return;
-    			transition_in(if_block1);
+    			transition_in(if_block);
     			current = true;
     		},
     		o: function outro(local) {
-    			transition_out(if_block1);
+    			transition_out(if_block);
     			current = false;
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t0);
     			if (detaching) detach_dev(main);
-    			if (detaching) detach_dev(t2);
-    			if (detaching) detach_dev(footer);
-    			if (if_block0) if_block0.d();
     			if (detaching) detach_dev(t3);
-    			if (if_block1) if_block1.d(detaching);
-    			if (detaching) detach_dev(if_block1_anchor);
+    			if (detaching) detach_dev(footer);
+    			if (detaching) detach_dev(t5);
+    			if (if_block) if_block.d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
     			mounted = false;
     			dispose();
     		}
@@ -1277,7 +1261,7 @@
     function instance$1($$self, $$props, $$invalidate) {
     	let $check;
     	validate_store(check, "check");
-    	component_subscribe($$self, check, $$value => $$invalidate(0, $check = $$value));
+    	component_subscribe($$self, check, $$value => $$invalidate(1, $check = $$value));
     	let keyState = "";
     	let showKeyState;
 
@@ -1293,14 +1277,16 @@
     	let game = e => {
     		console.log(jutsus);
 
-    		if ((/Enter/i).test(e.key)) {
-    			// showSymbol(jutsus[keyState])
-    			// ws.send(keyState)
-    			keyState = "";
-    		} else if ((/Backspace/i).test(e.key)) {
-    			keyState = keyState.slice(0, -1);
-    		} else if ((/[a-z]/ig).test(e.key)) {
-    			keyState += e.key;
+    		if (!$check) {
+    			if ((/Enter/i).test(e.key)) {
+    				// showSymbol(jutsus[keyState])
+    				// ws.send(keyState)
+    				$$invalidate(0, keyState = "");
+    			} else if ((/Backspace/i).test(e.key)) {
+    				$$invalidate(0, keyState = keyState.slice(0, -1));
+    			} else if ((/[a-z]/ig).test(e.key)) {
+    				$$invalidate(0, keyState += e.key);
+    			}
     		}
     	};
 
@@ -1328,8 +1314,8 @@
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("keyState" in $$props) keyState = $$props.keyState;
-    		if ("showKeyState" in $$props) $$invalidate(1, showKeyState = $$props.showKeyState);
+    		if ("keyState" in $$props) $$invalidate(0, keyState = $$props.keyState);
+    		if ("showKeyState" in $$props) showKeyState = $$props.showKeyState;
     		if ("game" in $$props) $$invalidate(2, game = $$props.game);
     	};
 
@@ -1338,12 +1324,12 @@
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$check*/ 1) {
+    		if ($$self.$$.dirty & /*$check*/ 2) {
     			 console.warn($check);
     		}
     	};
 
-    	return [$check, showKeyState, game, keydown_handler];
+    	return [keyState, $check, game, keydown_handler];
     }
 
     class App extends SvelteComponentDev {

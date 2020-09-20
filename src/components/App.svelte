@@ -19,19 +19,23 @@ sc.on('game', (x) =>{
 })
 
 	let game = (e) => {
+
 	console.log(jutsus)
-		if((/Enter/i).test(e.key)){
-			// showSymbol(jutsus[keyState])
-			// ws.send(keyState)
-			keyState = ""
+		if ( !$check){
 
-		}	else if((/Backspace/i).test(e.key)){
+			if((/Enter/i).test(e.key)){
+				// showSymbol(jutsus[keyState])
+				// ws.send(keyState)
+				keyState = ""
 
-			keyState = keyState.slice(0, -1)
+			}	else if((/Backspace/i).test(e.key)){
 
-		}	else if((/[a-z]/ig).test(e.key))  {
-			keyState += e.key
-		}
+				keyState = keyState.slice(0, -1)
+
+			}	else if((/[a-z]/ig).test(e.key))  {
+				keyState += e.key
+			}
+		}			
 }
 
 
@@ -42,9 +46,9 @@ $: console.warn($check)
 <style lang="scss">
  	
 </style>
-
+<svelte:body on:keydown={x => game(x)}/>
 <template>
-	<main class="c-main" on:keydown={x => game(x)}>
+	<main class="c-main" >
 		<figure class="js-symbol u-center"></figure>
 		<figcaption class="js-symbol js-symbol_desc">
 			<h1></h1>
@@ -54,9 +58,7 @@ $: console.warn($check)
 		</figcaption>
 	</main>
 	<footer>
-		{#if showKeyState}
-			<dialog id="logger" class="js-log c-log" class:showKeyState={is-logged}>{showKeyState}</dialog>
-		{/if}
+			<dialog id="logger" class="js-log c-log" class:is-logged={keyState}>{keyState}</dialog>
 	</footer>
 
 {#if $check }
