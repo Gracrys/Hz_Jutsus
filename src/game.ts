@@ -36,7 +36,11 @@ const game =  event => {
 			}, 2000 )
 	})
 
-	function showSymbol(x){
+*/
+	
+}
+
+export function showSymbol(x){
 		if(x){
 			symbol.innerText =  x.symbol 
 			symbolDesc.querySelector("h1").innerText = x.kanji
@@ -44,6 +48,3 @@ const game =  event => {
 		}
 		// else console.log(x)
 	}
-*/
-
-}

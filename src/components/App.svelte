@@ -7,26 +7,24 @@
 
 
 	let keyState = ""
-	let showKeyState : string 
-
+	let currentJutsu
 
 sc.on('game', (x) =>{
 	// if(!x.error)
 		check.set(false)	
-		console.log(check)
-	console.log(x.error, x)
 	console.warn("connected")
 })
 
+	console.log(jutsus)
 	let game = (e) => {
 
-	console.log(jutsus)
 		if ( !$check){
 
 			if((/Enter/i).test(e.key)){
-				// showSymbol(jutsus[keyState])
+				currentJutsu = (jutsus[keyState])
 				// ws.send(keyState)
 				keyState = ""
+
 
 			}	else if((/Backspace/i).test(e.key)){
 
@@ -49,13 +47,15 @@ $: console.warn($check)
 <svelte:body on:keydown={x => game(x)}/>
 <template>
 	<main class="c-main" >
-		<figure class="js-symbol u-center"></figure>
-		<figcaption class="js-symbol js-symbol_desc">
-			<h1></h1>
-			<h3>
-				<blockquote></blockquote>
-			</h3>
-		</figcaption>
+		{#if !!currentJutsu}
+			<figure class="js-symbol u-center">{currentJutsu?.symbol}</figure>
+			<figcaption class="js-symbol js-symbol_desc">
+				<h1>{currentJutsu?.kanji}</h1>
+				<h3>
+					<blockquote>{currentJutsu?.romanji}</blockquote>
+				</h3>
+			</figcaption>
+		{/if}
 	</main>
 	<footer>
 			<dialog id="logger" class="js-log c-log" class:is-logged={keyState}>{keyState}</dialog>

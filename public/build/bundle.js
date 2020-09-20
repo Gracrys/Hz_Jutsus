@@ -1077,6 +1077,77 @@
     const { console: console_1$1 } = globals;
     const file$1 = "src\\components\\App.svelte";
 
+    // (34:2) {#if !!currentJutsu}
+    function create_if_block_1(ctx) {
+    	let figure;
+    	let t0_value = /*currentJutsu*/ ctx[1]?.symbol + "";
+    	let t0;
+    	let t1;
+    	let figcaption;
+    	let h1;
+    	let t2_value = /*currentJutsu*/ ctx[1]?.kanji + "";
+    	let t2;
+    	let t3;
+    	let h3;
+    	let blockquote;
+    	let t4_value = /*currentJutsu*/ ctx[1]?.romanji + "";
+    	let t4;
+
+    	const block = {
+    		c: function create() {
+    			figure = element("figure");
+    			t0 = text(t0_value);
+    			t1 = space();
+    			figcaption = element("figcaption");
+    			h1 = element("h1");
+    			t2 = text(t2_value);
+    			t3 = space();
+    			h3 = element("h3");
+    			blockquote = element("blockquote");
+    			t4 = text(t4_value);
+    			attr_dev(figure, "class", "js-symbol u-center");
+    			add_location(figure, file$1, 34, 3, 902);
+    			add_location(h1, file$1, 36, 4, 1024);
+    			add_location(blockquote, file$1, 38, 5, 1071);
+    			add_location(h3, file$1, 37, 4, 1060);
+    			attr_dev(figcaption, "class", "js-symbol js-symbol_desc");
+    			add_location(figcaption, file$1, 35, 3, 973);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, figure, anchor);
+    			append_dev(figure, t0);
+    			insert_dev(target, t1, anchor);
+    			insert_dev(target, figcaption, anchor);
+    			append_dev(figcaption, h1);
+    			append_dev(h1, t2);
+    			append_dev(figcaption, t3);
+    			append_dev(figcaption, h3);
+    			append_dev(h3, blockquote);
+    			append_dev(blockquote, t4);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*currentJutsu*/ 2 && t0_value !== (t0_value = /*currentJutsu*/ ctx[1]?.symbol + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*currentJutsu*/ 2 && t2_value !== (t2_value = /*currentJutsu*/ ctx[1]?.kanji + "")) set_data_dev(t2, t2_value);
+    			if (dirty & /*currentJutsu*/ 2 && t4_value !== (t4_value = /*currentJutsu*/ ctx[1]?.romanji + "")) set_data_dev(t4, t4_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(figure);
+    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(figcaption);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1.name,
+    		type: "if",
+    		source: "(34:2) {#if !!currentJutsu}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
     // (48:0) {#if $check }
     function create_if_block$1(ctx) {
     	let modal;
@@ -1119,56 +1190,37 @@
     function create_fragment$1(ctx) {
     	let t0;
     	let main;
-    	let figure;
     	let t1;
-    	let figcaption;
-    	let h1;
-    	let t2;
-    	let h3;
-    	let blockquote;
-    	let t3;
     	let footer;
     	let dialog;
-    	let t4;
-    	let t5;
-    	let if_block_anchor;
+    	let t2;
+    	let t3;
+    	let if_block1_anchor;
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block = /*$check*/ ctx[1] && create_if_block$1(ctx);
+    	let if_block0 = !!/*currentJutsu*/ ctx[1] && create_if_block_1(ctx);
+    	let if_block1 = /*$check*/ ctx[2] && create_if_block$1(ctx);
 
     	const block = {
     		c: function create() {
     			t0 = space();
     			main = element("main");
-    			figure = element("figure");
+    			if (if_block0) if_block0.c();
     			t1 = space();
-    			figcaption = element("figcaption");
-    			h1 = element("h1");
-    			t2 = space();
-    			h3 = element("h3");
-    			blockquote = element("blockquote");
-    			t3 = space();
     			footer = element("footer");
     			dialog = element("dialog");
-    			t4 = text(/*keyState*/ ctx[0]);
-    			t5 = space();
-    			if (if_block) if_block.c();
-    			if_block_anchor = empty();
-    			attr_dev(figure, "class", "js-symbol u-center");
-    			add_location(figure, file$1, 35, 2, 933);
-    			add_location(h1, file$1, 37, 3, 1031);
-    			add_location(blockquote, file$1, 39, 4, 1055);
-    			add_location(h3, file$1, 38, 3, 1045);
-    			attr_dev(figcaption, "class", "js-symbol js-symbol_desc");
-    			add_location(figcaption, file$1, 36, 2, 981);
+    			t2 = text(/*keyState*/ ctx[0]);
+    			t3 = space();
+    			if (if_block1) if_block1.c();
+    			if_block1_anchor = empty();
     			attr_dev(main, "class", "c-main");
-    			add_location(main, file$1, 34, 1, 907);
+    			add_location(main, file$1, 32, 1, 851);
     			attr_dev(dialog, "id", "logger");
     			attr_dev(dialog, "class", "js-log c-log");
     			toggle_class(dialog, "is-logged", /*keyState*/ ctx[0]);
-    			add_location(dialog, file$1, 44, 3, 1133);
-    			add_location(footer, file$1, 43, 1, 1120);
+    			add_location(dialog, file$1, 44, 3, 1183);
+    			add_location(footer, file$1, 43, 1, 1170);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1176,50 +1228,57 @@
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
     			insert_dev(target, main, anchor);
-    			append_dev(main, figure);
-    			append_dev(main, t1);
-    			append_dev(main, figcaption);
-    			append_dev(figcaption, h1);
-    			append_dev(figcaption, t2);
-    			append_dev(figcaption, h3);
-    			append_dev(h3, blockquote);
-    			insert_dev(target, t3, anchor);
+    			if (if_block0) if_block0.m(main, null);
+    			insert_dev(target, t1, anchor);
     			insert_dev(target, footer, anchor);
     			append_dev(footer, dialog);
-    			append_dev(dialog, t4);
-    			insert_dev(target, t5, anchor);
-    			if (if_block) if_block.m(target, anchor);
-    			insert_dev(target, if_block_anchor, anchor);
+    			append_dev(dialog, t2);
+    			insert_dev(target, t3, anchor);
+    			if (if_block1) if_block1.m(target, anchor);
+    			insert_dev(target, if_block1_anchor, anchor);
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(document.body, "keydown", /*keydown_handler*/ ctx[3], false, false, false);
+    				dispose = listen_dev(document.body, "keydown", /*keydown_handler*/ ctx[4], false, false, false);
     				mounted = true;
     			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if (!current || dirty & /*keyState*/ 1) set_data_dev(t4, /*keyState*/ ctx[0]);
+    			if (!!/*currentJutsu*/ ctx[1]) {
+    				if (if_block0) {
+    					if_block0.p(ctx, dirty);
+    				} else {
+    					if_block0 = create_if_block_1(ctx);
+    					if_block0.c();
+    					if_block0.m(main, null);
+    				}
+    			} else if (if_block0) {
+    				if_block0.d(1);
+    				if_block0 = null;
+    			}
+
+    			if (!current || dirty & /*keyState*/ 1) set_data_dev(t2, /*keyState*/ ctx[0]);
 
     			if (dirty & /*keyState*/ 1) {
     				toggle_class(dialog, "is-logged", /*keyState*/ ctx[0]);
     			}
 
-    			if (/*$check*/ ctx[1]) {
-    				if (if_block) {
-    					if (dirty & /*$check*/ 2) {
-    						transition_in(if_block, 1);
+    			if (/*$check*/ ctx[2]) {
+    				if (if_block1) {
+    					if (dirty & /*$check*/ 4) {
+    						transition_in(if_block1, 1);
     					}
     				} else {
-    					if_block = create_if_block$1(ctx);
-    					if_block.c();
-    					transition_in(if_block, 1);
-    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    					if_block1 = create_if_block$1(ctx);
+    					if_block1.c();
+    					transition_in(if_block1, 1);
+    					if_block1.m(if_block1_anchor.parentNode, if_block1_anchor);
     				}
-    			} else if (if_block) {
+    			} else if (if_block1) {
     				group_outros();
 
-    				transition_out(if_block, 1, 1, () => {
-    					if_block = null;
+    				transition_out(if_block1, 1, 1, () => {
+    					if_block1 = null;
     				});
 
     				check_outros();
@@ -1227,21 +1286,22 @@
     		},
     		i: function intro(local) {
     			if (current) return;
-    			transition_in(if_block);
+    			transition_in(if_block1);
     			current = true;
     		},
     		o: function outro(local) {
-    			transition_out(if_block);
+    			transition_out(if_block1);
     			current = false;
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t0);
     			if (detaching) detach_dev(main);
-    			if (detaching) detach_dev(t3);
+    			if (if_block0) if_block0.d();
+    			if (detaching) detach_dev(t1);
     			if (detaching) detach_dev(footer);
-    			if (detaching) detach_dev(t5);
-    			if (if_block) if_block.d(detaching);
-    			if (detaching) detach_dev(if_block_anchor);
+    			if (detaching) detach_dev(t3);
+    			if (if_block1) if_block1.d(detaching);
+    			if (detaching) detach_dev(if_block1_anchor);
     			mounted = false;
     			dispose();
     		}
@@ -1261,25 +1321,24 @@
     function instance$1($$self, $$props, $$invalidate) {
     	let $check;
     	validate_store(check, "check");
-    	component_subscribe($$self, check, $$value => $$invalidate(1, $check = $$value));
+    	component_subscribe($$self, check, $$value => $$invalidate(2, $check = $$value));
     	let keyState = "";
-    	let showKeyState;
+    	let currentJutsu;
 
     	sc$1.on("game", x => {
     		// if(!x.error)
     		check.set(false);
 
-    		console.log(check);
-    		console.log(x.error, x);
     		console.warn("connected");
     	});
 
-    	let game = e => {
-    		console.log(jutsus);
+    	console.log(jutsus);
 
+    	let game = e => {
     		if (!$check) {
     			if ((/Enter/i).test(e.key)) {
-    				// showSymbol(jutsus[keyState])
+    				$$invalidate(1, currentJutsu = jutsus[keyState]);
+
     				// ws.send(keyState)
     				$$invalidate(0, keyState = "");
     			} else if ((/Backspace/i).test(e.key)) {
@@ -1308,15 +1367,15 @@
     		technique,
     		jutsus,
     		keyState,
-    		showKeyState,
+    		currentJutsu,
     		game,
     		$check
     	});
 
     	$$self.$inject_state = $$props => {
     		if ("keyState" in $$props) $$invalidate(0, keyState = $$props.keyState);
-    		if ("showKeyState" in $$props) showKeyState = $$props.showKeyState;
-    		if ("game" in $$props) $$invalidate(2, game = $$props.game);
+    		if ("currentJutsu" in $$props) $$invalidate(1, currentJutsu = $$props.currentJutsu);
+    		if ("game" in $$props) $$invalidate(3, game = $$props.game);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -1324,12 +1383,12 @@
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$check*/ 2) {
+    		if ($$self.$$.dirty & /*$check*/ 4) {
     			 console.warn($check);
     		}
     	};
 
-    	return [keyState, $check, game, keydown_handler];
+    	return [keyState, currentJutsu, $check, game, keydown_handler];
     }
 
     class App extends SvelteComponentDev {
