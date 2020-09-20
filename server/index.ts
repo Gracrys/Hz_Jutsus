@@ -44,7 +44,7 @@ io.on('log', (ctx, data) => {
     app.io.broadcast( 'game', data);
     console.log('client sent data to message endpoint', data);
     ctx.socket.in(data.room).emit('game', { chicken: 'tasty' });
-  }else
+  } else
     app.io.broadcast( 'game', {error: "full room"});
 });
 

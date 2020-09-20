@@ -60,7 +60,7 @@ function sendData(x) {
 	
 </style>
 
-	<dialog id=modal transition:slide="{{delay: 1250, duration: 2200}}" class="js-modal c-modal" class:js-active={check}> 
+	<dialog id=modal transition:slide="{{delay: 250, duration: 2200}}" class="js-modal c-modal js-active" > 
 		<h1>hENLO!</h1>
 		{#if localStorage}
 			<label>Pick a name</label><input type="" bind:value={data.name} name="">
