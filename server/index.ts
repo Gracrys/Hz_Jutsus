@@ -43,33 +43,15 @@ io.on('log', (ctx, data) => {
     ctx.socket.join(data.room);
     app.io.broadcast( 'game', data);
     console.log('client sent data to message endpoint', data);
-    ctx.socket.in(data.room).emit('game', { chicken: 'tasty' });
+    // ctx.socket.in(data.room).emit('game', { chicken: 'tasty' });
   } else
     app.io.broadcast( 'game', {error: "full room"});
 });
 
-//Websocket
-/*
-app.ws.use(route.all('/:id', function(ctx, id, next) {
-  // return `next` to pass the context (ctx) on to the next ws middleware
-  // clients.push(connection)
 
-
-  ctx.websocket.on('message', function(message) {
-    let message1 = JSON.parse( message )
-    // if(message1.hasOwnProperty("room"))
-      // games[message.room] =  'ctx'
-
-    // else
-      // games[message.room].forEach(c => c.websocket.send(message))
-    // clients.forEach(c => c[id].websocket.send(message))
-    // do something with the message from client
-    console.log(games, id, message1["room"])
-  });
-  return next(ctx);
-}));
-*/
-
+io.on('game', (ctx, data) => {
+  ctx.socket.to(data.room).emit('game', { message: data?.jutsu });
+})
 
 app.use(async ctx => {
   ctx.body = 'Hello World';

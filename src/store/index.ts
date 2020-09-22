@@ -1,7 +1,7 @@
 import { derived, writable, get } from 'svelte/store';
 import io from "socket.io-client/dist/socket.io.js"
 
-export const ip = "localhost:3000" // "10.10.1.117:3000"
+export const ip =  "10.10.1.117:3000"
 
 export let check : bool = writable(true)
 

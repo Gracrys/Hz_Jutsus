@@ -13,6 +13,7 @@ sc.on('game', (x) =>{
 	// if(!x.error)
 		check.set(false)	
 	console.warn("connected")
+	if(x?.message) alert(x?.message)
 })
 
 	console.log(jutsus)
@@ -23,8 +24,8 @@ sc.on('game', (x) =>{
 			if((/Enter/i).test(e.key)){
 				currentJutsu = (jutsus[keyState])
 				// ws.send(keyState)
+				sc.emit('log',{jutsu: jutsus[keyState]})
 				keyState = ""
-
 
 			}	else if((/Backspace/i).test(e.key)){
 

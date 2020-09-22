@@ -14,17 +14,9 @@
     });
 
 function sendData(x) {
-	// console.log($ws)
 
-	// $ws.send(JSON.stringify(data))
-
-	// console.log(get(ws))
 	sc.emit('log',data)
-	// sc.on('log', (x) =>{
 
-	// 	check.set(false)	
-	// 	console.warn("connected")
-	// })
 }
 
 
