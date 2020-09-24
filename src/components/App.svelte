@@ -1,6 +1,6 @@
 <script lang="typescript">
 	
-	import {ip, check, sc} from '../store/index.ts'	
+	import {ip, check, sc, lS} from '../store/index.ts'	
 	import Modal from './Modal.svelte'
 	// import game from '../game.ts'
 	import { technique, jutsus } from "../jutsus.ts"
@@ -12,29 +12,29 @@
 sc.on('game', (x) =>{
 	// if(!x.error)
 		check.set(false)	
-	console.warn("connected")
+	console.warn(x, 'suck')
 	if(x?.message) alert(x?.message)
 })
 
-	console.log(jutsus)
-	let game = (e) => {
+console.log(jutsus)
+let game = (e) => {
 
-		if ( !$check){
+	if ( !$check){
 
-			if((/Enter/i).test(e.key)){
-				currentJutsu = (jutsus[keyState])
-				// ws.send(keyState)
-				sc.emit('log',{jutsu: jutsus[keyState]})
-				keyState = ""
+		if((/Enter/i).test(e.key)){
+			currentJutsu = (jutsus[keyState])
+			// ws.send(keyState)
+			sc.emit('game',{...$lS,jutsu: jutsus[keyState]})
+			keyState = ""
 
-			}	else if((/Backspace/i).test(e.key)){
+		}	else if((/Backspace/i).test(e.key)){
 
-				keyState = keyState.slice(0, -1)
+			keyState = keyState.slice(0, -1)
 
-			}	else if((/[a-z]/ig).test(e.key))  {
-				keyState += e.key
-			}
-		}			
+		}	else if((/[a-z]/ig).test(e.key))  {
+			keyState += e.key
+		}
+	}			
 }
 
 

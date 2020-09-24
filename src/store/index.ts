@@ -5,5 +5,7 @@ export const ip =  "10.10.1.117:3000"
 
 export let check : bool = writable(true)
 
+export let lS = writable()
+
 export const sc = io.connect('http://' + ip)
 // export const ws = derived( port, x => new WebSocket("ws://"+ip+"/"+(x))  

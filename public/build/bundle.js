@@ -690,6 +690,7 @@
 
     const ip$1 = "10.10.1.117:3000";
     let check = writable(true);
+    let lS = writable();
     const sc$1 = socket_io.connect('http://' + ip$1);
     // export const ws = derived( port, x => new WebSocket("ws://"+ip+"/"+(x))
 
@@ -757,7 +758,7 @@
     const { console: console_1 } = globals;
     const file = "src\\components\\Modal.svelte";
 
-    // (43:2) {#if localStorage}
+    // (45:2) {#if !$lS?.name}
     function create_if_block(ctx) {
     	let label;
     	let input;
@@ -770,10 +771,10 @@
     			label.textContent = "Pick a name";
     			input = element("input");
     			attr_dev(label, "class", "svelte-s1wugr");
-    			add_location(label, file, 43, 3, 924);
+    			add_location(label, file, 45, 3, 1003);
     			attr_dev(input, "type", "");
     			attr_dev(input, "name", "");
-    			add_location(input, file, 43, 29, 950);
+    			add_location(input, file, 45, 29, 1029);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, label, anchor);
@@ -781,7 +782,7 @@
     			set_input_value(input, /*data*/ ctx[0].name);
 
     			if (!mounted) {
-    				dispose = listen_dev(input, "input", /*input_input_handler*/ ctx[2]);
+    				dispose = listen_dev(input, "input", /*input_input_handler*/ ctx[3]);
     				mounted = true;
     			}
     		},
@@ -802,7 +803,7 @@
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(43:2) {#if localStorage}",
+    		source: "(45:2) {#if !$lS?.name}",
     		ctx
     	});
 
@@ -823,7 +824,7 @@
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block = localStorage && create_if_block(ctx);
+    	let if_block = !/*$lS*/ ctx[1]?.name && create_if_block(ctx);
 
     	const block = {
     		c: function create() {
@@ -840,16 +841,16 @@
     			t5 = space();
     			button = element("button");
     			button.textContent = "accept";
-    			add_location(h1, file, 41, 2, 882);
-    			add_location(p, file, 45, 2, 1009);
+    			add_location(h1, file, 43, 2, 963);
+    			add_location(p, file, 47, 2, 1088);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "name", "room");
     			attr_dev(input, "class", "svelte-s1wugr");
-    			add_location(input, file, 46, 2, 1035);
-    			add_location(button, file, 47, 2, 1093);
+    			add_location(input, file, 48, 2, 1114);
+    			add_location(button, file, 49, 2, 1172);
     			attr_dev(dialog, "id", "modal");
     			attr_dev(dialog, "class", "js-modal c-modal js-active svelte-s1wugr");
-    			add_location(dialog, file, 40, 1, 774);
+    			add_location(dialog, file, 42, 1, 854);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -870,15 +871,26 @@
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(input, "input", /*input_input_handler_1*/ ctx[3]),
-    					listen_dev(button, "click", /*sendData*/ ctx[1], false, false, false)
+    					listen_dev(input, "input", /*input_input_handler_1*/ ctx[4]),
+    					listen_dev(button, "click", /*sendData*/ ctx[2], false, false, false)
     				];
 
     				mounted = true;
     			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if (localStorage) if_block.p(ctx, dirty);
+    			if (!/*$lS*/ ctx[1]?.name) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
+    					if_block = create_if_block(ctx);
+    					if_block.c();
+    					if_block.m(dialog, t2);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
 
     			if (dirty & /*data*/ 1 && input.value !== /*data*/ ctx[0].room) {
     				set_input_value(input, /*data*/ ctx[0].room);
@@ -920,6 +932,9 @@
     }
 
     function instance($$self, $$props, $$invalidate) {
+    	let $lS;
+    	validate_store(lS, "lS");
+    	component_subscribe($$self, lS, $$value => $$invalidate(1, $lS = $$value));
     	let data = { room: "", name: "" };
 
     	sc$1.on("log", function (event) {
@@ -928,6 +943,8 @@
 
     	function sendData(x) {
     		sc$1.emit("log", data);
+    		localStorage.setItem("data", JSON.stringify(data));
+    		lS.set(data);
     	}
 
     	const writable_props = [];
@@ -956,8 +973,10 @@
     		ip: ip$1,
     		check,
     		sc: sc$1,
+    		lS,
     		data,
-    		sendData
+    		sendData,
+    		$lS
     	});
 
     	$$self.$inject_state = $$props => {
@@ -968,7 +987,7 @@
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [data, sendData, input_input_handler, input_input_handler_1];
+    	return [data, $lS, sendData, input_input_handler, input_input_handler_1];
     }
 
     class Modal extends SvelteComponentDev {
@@ -1102,12 +1121,12 @@
     			blockquote = element("blockquote");
     			t4 = text(t4_value);
     			attr_dev(figure, "class", "js-symbol u-center");
-    			add_location(figure, file$1, 37, 3, 1009);
-    			add_location(h1, file$1, 39, 4, 1131);
-    			add_location(blockquote, file$1, 41, 5, 1178);
-    			add_location(h3, file$1, 40, 4, 1167);
+    			add_location(figure, file$1, 37, 3, 1020);
+    			add_location(h1, file$1, 39, 4, 1142);
+    			add_location(blockquote, file$1, 41, 5, 1189);
+    			add_location(h3, file$1, 40, 4, 1178);
     			attr_dev(figcaption, "class", "js-symbol js-symbol_desc");
-    			add_location(figcaption, file$1, 38, 3, 1080);
+    			add_location(figcaption, file$1, 38, 3, 1091);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, figure, anchor);
@@ -1211,12 +1230,12 @@
     			if (if_block1) if_block1.c();
     			if_block1_anchor = empty();
     			attr_dev(main, "class", "c-main");
-    			add_location(main, file$1, 35, 1, 958);
+    			add_location(main, file$1, 35, 1, 969);
     			attr_dev(dialog, "id", "logger");
     			attr_dev(dialog, "class", "js-log c-log");
     			toggle_class(dialog, "is-logged", /*keyState*/ ctx[0]);
-    			add_location(dialog, file$1, 47, 3, 1290);
-    			add_location(footer, file$1, 46, 1, 1277);
+    			add_location(dialog, file$1, 47, 3, 1301);
+    			add_location(footer, file$1, 46, 1, 1288);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1316,8 +1335,11 @@
 
     function instance$1($$self, $$props, $$invalidate) {
     	let $check;
+    	let $lS;
     	validate_store(check, "check");
     	component_subscribe($$self, check, $$value => $$invalidate(2, $check = $$value));
+    	validate_store(lS, "lS");
+    	component_subscribe($$self, lS, $$value => $$invalidate(5, $lS = $$value));
     	let keyState = "";
     	let currentJutsu;
 
@@ -1325,7 +1347,7 @@
     		// if(!x.error)
     		check.set(false);
 
-    		console.warn("connected");
+    		console.warn(x, "suck");
     		if (x?.message) alert(x?.message);
     	});
 
@@ -1337,7 +1359,7 @@
     				$$invalidate(1, currentJutsu = jutsus[keyState]);
 
     				// ws.send(keyState)
-    				sc$1.emit("log", { jutsu: jutsus[keyState] });
+    				sc$1.emit("game", { ...$lS, jutsu: jutsus[keyState] });
 
     				$$invalidate(0, keyState = "");
     			} else if ((/Backspace/i).test(e.key)) {
@@ -1362,13 +1384,15 @@
     		ip: ip$1,
     		check,
     		sc: sc$1,
+    		lS,
     		Modal,
     		technique,
     		jutsus,
     		keyState,
     		currentJutsu,
     		game,
-    		$check
+    		$check,
+    		$lS
     	});
 
     	$$self.$inject_state = $$props => {

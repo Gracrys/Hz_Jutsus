@@ -30,6 +30,11 @@ app.use( route.all('/', function(ctx, next){
   )
 )
 
+io.on('game', (ctx, data) => {
+  console.log(data)
+  ctx.socket.to(data.room).emit('game', { message: data.jutsu });
+    // ctx.socket.in(data.room).emit('game', { message: 'tasty' });
+})
 
 io.on('log', (ctx, data) => {
 
@@ -49,9 +54,6 @@ io.on('log', (ctx, data) => {
 });
 
 
-io.on('game', (ctx, data) => {
-  ctx.socket.to(data.room).emit('game', { message: data?.jutsu });
-})
 
 app.use(async ctx => {
   ctx.body = 'Hello World';

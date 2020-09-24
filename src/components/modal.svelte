@@ -1,7 +1,7 @@
 <script lang="typescript">
 	import { slide, fade } from 'svelte/transition';
 	import postData from '../utils/postData.ts'	
-	import {ip, check, sc} from '../store/index.ts'	
+	import {ip, check, sc, lS} from '../store/index.ts'	
 // import { get } from 'svelte/store';
 
 	let data  = {
@@ -16,7 +16,9 @@
 function sendData(x) {
 
 	sc.emit('log',data)
+	localStorage.setItem('data', JSON.stringify(data));
 
+	lS.set(data)
 }
 
 
@@ -52,9 +54,9 @@ function sendData(x) {
 	
 </style>
 
-	<dialog id=modal transition:slide="{{delay: 250, duration: 2200}}" class="js-modal c-modal js-active" > 
+	<dialog id=modal transition:slide="{{delay: 250, duration: 2200}}" class="js-modal c-modal js-active"  > 
 		<h1>hENLO!</h1>
-		{#if localStorage}
+		{#if !$lS?.name}
 			<label>Pick a name</label><input type="" bind:value={data.name} name="">
 		{/if}
 		<p>Select a server</p>
